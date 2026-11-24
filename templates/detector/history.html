@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Prediction History - PlantGuard AI{% endblock %}
+
+{% block content %}
+<section class="history-page-section">
+    <!-- History Page Header -->
+    <div class="history-header">
+        <div>
+            <span class="hero-tag">📜 Activity Log</span>
+            <h1 class="history-title">Prediction History</h1>
+            <p class="history-subtitle">View, inspect, and manage all your past AI plant disease classifications.</p>
+        </div>
+        <div class="history-header-actions">
+            <a href="{% url 'detector:home' %}" class="btn btn-primary btn-sm">
+                <span class="btn-icon">⚡</span>
+                <span class="btn-text">New Diagnosis</span>
+            </a>
+            {% if total_history_count > 0 %}
+                <form action="{% url 'detector:history_clear' %}" method="POST" class="inline-form" onsubmit="return confirm('Are you sure you want to delete ALL your prediction history? This action cannot be undone.');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger-outline btn-sm">
+                        <span class="btn-icon">🗑️</span>
+                        <span class="btn-text">Clear All History</span>
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Filters & Search Toolbar -->
+    {% if total_history_count > 0 %}
+    <div class="history-toolbar">
+        <div class="filter-pills">
+            <a href="?status=all{% if search_query %}&q={{ search_query }}{% endif %}" class="filter-pill {% if status_filter == 'all' or not status_filter %}active{% endif %}">All ({{ total_history_count }})</a>
+            <a href="?status=disease{% if search_query %}&q={{ search_query }}{% endif %}" class="filter-pill {% if status_filter == 'disease' %}active{% endif %}">Diseases</a>
+            <a href="?status=healthy{% if search_query %}&q={{ search_query }}{% endif %}" class="filter-pill {% if status_filter == 'healthy' %}active{% endif %}">Healthy</a>
+            <a href="?status=uncertain{% if search_query %}&q={{ search_query }}{% endif %}" class="filter-pill {% if status_filter == 'uncertain' %}active{% endif %}">Uncertain (&lt;70%)</a>
+        </div>
+
+        <form action="{% url 'detector:history' %}" method="GET" class="search-form">
+            {% if status_filter and status_filter != 'all' %}
+                <input type="hidden" name="status" value="{{ status_filter }}">
+            {% endif %}
+            <div class="search-input-wrapper">
+                <input type="text" name="q" value="{{ search_query }}" placeholder="Search plant or disease..." class="search-input">
+                <button type="submit" class="search-btn" title="Search">🔍</button>
+                {% if search_query %}
+                    <a href="?{% if status_filter and status_filter != 'all' %}status={{ status_filter }}{% endif %}" class="search-clear" title="Clear search">✕</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- History Records List -->
+    <div class="history-card">
+        {% if page_obj.object_list %}
+            <div class="history-list">
+                {% for record in page_obj %}
+                    <div class="history-item-card">
+                        <!-- Thumbnail Image -->
+                        <div class="history-thumb-wrapper">
+                            <img src="{{ record.image.url }}" alt="{{ record.full_class_name }}" class="history-thumbnail" loading="lazy" />
+                        </div>
+
+                        <!-- Diagnosis Info -->
+                        <div class="history-info">
+                            <div class="history-main-details">
+                                <div class="history-tags">
+                                    <span class="history-plant-tag">{{ record.plant_name }}</span>
+                                    {% if record.is_healthy %}
+                                        <span class="status-badge badge-success">Healthy</span>
+                                    {% elif not record.is_confident %}
+                                        <span class="status-badge badge-warning">Low Confidence</span>
+                                    {% endif %}
+                                </div>
+                                <h3 class="history-disease-name">
+                                    {% if record.is_confident %}
+                                        {{ record.disease_name }}
+                                    {% else %}
+                                        <span class="text-uncertain">Uncertain Diagnosis</span>
+                                    {% endif %}
+                                </h3>
+                                <span class="history-date">📅 {{ record.created_at|date:"M d, Y &bull; H:i" }}</span>
+                            </div>
+
+                            <div class="history-confidence-wrapper">
+                                <span class="conf-label">Confidence</span>
+                                <span class="confidence-badge {% if record.is_confident %}conf-high-badge{% else %}conf-low-badge{% endif %}">
+                                    {{ record.confidence_percent }}%
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="history-actions">
+                            <a href="{% url 'detector:history_detail' record.id %}" class="btn-action btn-view">
+                                View Details
+                            </a>
+                            <form action="{% url 'detector:history_delete' record.id %}" method="POST" class="inline-form" onsubmit="return confirm('Delete this prediction record?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-action btn-delete" title="Delete record">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" class="page-link">&laquo; Previous</a>
+                    {% else %}
+                        <span class="page-link disabled">&laquo; Previous</span>
+                    {% endif %}
+
+                    <span class="page-current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" class="page-link">Next &raquo;</a>
+                    {% else %}
+                        <span class="page-link disabled">Next &raquo;</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">🍃</div>
+                <h3 class="empty-title">
+                    {% if search_query or status_filter != 'all' and status_filter %}
+                        No Matching Records Found
+                    {% else %}
+                        No Prediction History Yet
+                    {% endif %}
+                </h3>
+                <p class="empty-text">
+                    {% if search_query or status_filter != 'all' and status_filter %}
+                        No diagnoses match your filter criteria. Try changing or clearing your search.
+                    {% else %}
+                        When you upload crop leaves for AI diagnosis while logged in, your predictions and recommendations will be saved here.
+                    {% endif %}
+                </p>
+                <div class="empty-actions">
+                    {% if search_query or status_filter != 'all' and status_filter %}
+                        <a href="{% url 'detector:history' %}" class="btn btn-outline btn-sm">Clear Filters</a>
+                    {% else %}
+                        <a href="{% url 'detector:home' %}" class="btn btn-primary btn-sm">
+                            <span class="btn-icon">⚡</span>
+                            <span class="btn-text">Diagnose a Leaf Now</span>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

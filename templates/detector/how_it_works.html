@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}How It Works - PlantGuard AI{% endblock %}
+
+{% block content %}
+<section class="info-page-section">
+    <!-- Header -->
+    <div class="info-page-header">
+        <span class="hero-tag">🔬 Deep Learning Pipeline</span>
+        <h1 class="info-page-title">How PlantGuard AI Works</h1>
+        <p class="info-page-subtitle">
+            An automated 3-step artificial intelligence workflow converting leaf photography into reliable agricultural diagnoses and actionable prevention insights.
+        </p>
+    </div>
+
+    <!-- 3-Step Interactive Process Cards -->
+    <div class="workflow-steps-grid">
+        <div class="workflow-step-card">
+            <div class="step-badge">Step 01</div>
+            <div class="step-icon">📸</div>
+            <h2 class="step-title">Capture & Upload</h2>
+            <p class="step-description">
+                Take a clear, well-lit, close-up photo of a crop leaf showing the affected surface or healthy foliage. Upload the image (JPG, JPEG, PNG, or WEBP, up to 10MB) via drag-and-drop or file selection.
+            </p>
+            <ul class="step-points">
+                <li>Instant client-side image preview</li>
+                <li>Format & integrity validation</li>
+                <li>Secure server-side upload processing</li>
+            </ul>
+        </div>
+
+        <div class="workflow-step-card">
+            <div class="step-badge">Step 02</div>
+            <div class="step-icon">🧠</div>
+            <h2 class="step-title">AI Model Inference</h2>
+            <p class="step-description">
+                The image is resized to $224 \times 224$ pixels and processed by a fine-tuned MobileNetV2 Convolutional Neural Network (CNN) trained across 38 distinct crop categories.
+            </p>
+            <ul class="step-points">
+                <li>Transfer learning with ImageNet weights</li>
+                <li>Extracts visual disease biomarkers & textures</li>
+                <li>Computes softmax probability distribution</li>
+            </ul>
+        </div>
+
+        <div class="workflow-step-card">
+            <div class="step-badge">Step 03</div>
+            <div class="step-icon">⚡</div>
+            <h2 class="step-title">Instant Diagnosis & Guidance</h2>
+            <p class="step-description">
+                The platform displays the identified disease, model confidence percentage, top-3 candidates, symptoms, causes, prevention advice, and basic recommendations.
+            </p>
+            <ul class="step-points">
+                <li>70% reliability confidence threshold enforcement</li>
+                <li>Comprehensive symptom & prevention profile</li>
+                <li>Automatic prediction history logging for accounts</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Call to Action Banner -->
+    <div class="cta-banner">
+        <div class="cta-content">
+            <h3 class="cta-title">Ready to Diagnose a Plant Leaf?</h3>
+            <p class="cta-text">Upload your crop image now and get instant AI-powered health insights.</p>
+        </div>
+        <div class="cta-action">
+            <a href="{% url 'detector:home' %}" class="btn btn-primary">
+                <span class="btn-icon">🌿</span>
+                <span class="btn-text">Start Diagnosis</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AI Plant Disease Detection - Home{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-content">
+        <span class="hero-tag">🌾 Intelligent Agriculture</span>
+        <h1 class="hero-title">AI Plant Disease Detection</h1>
+        <p class="hero-description">
+            An automated computer vision solution designed to diagnose plant diseases quickly and accurately from leaf photographs. Upload a leaf photo below to inspect plant health and prevent crop yield loss.
+        </p>
+    </div>
+</section>
+
+<section class="upload-section">
+    <div class="upload-card">
+        <div class="card-header">
+            <h2 class="card-title">Upload Leaf Image</h2>
+            <p class="card-subtitle">Supported formats: JPG, JPEG, PNG</p>
+        </div>
+
+        <!-- Image Upload Form -->
+        <form action="{% url 'detector:home' %}" method="POST" enctype="multipart/form-data" id="leaf-upload-form" class="upload-form">
+            {% csrf_token %}
+            
+            <div class="drop-zone" id="drop-zone">
+                <div class="drop-zone-prompt" id="drop-zone-prompt">
+                    <div class="upload-icon-wrapper">
+                        <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <p class="upload-instruction">
+                        <strong>Click to browse</strong> or drag & drop leaf image here
+                    </p>
+                    <span class="upload-hint">Upload a single close-up image of the affected plant leaf</span>
+                </div>
+
+                <!-- Hidden file input triggered by drop zone -->
+                {{ form.image }}
+
+                <!-- Live Client-side Image Preview Container -->
+                <div class="preview-container" id="preview-container" style="display: none;">
+                    <img id="image-preview" src="" alt="Selected leaf preview" class="preview-image" />
+                    <div class="preview-actions">
+                        <span id="file-name" class="file-name-badge">leaf_sample.jpg</span>
+                        <button type="button" id="remove-image-btn" class="btn-remove" title="Remove image">Change Image</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit" id="predict-btn" class="btn btn-primary" disabled>
+                    <span class="btn-icon" id="predict-btn-icon">⚡</span>
+                    <span class="btn-text" id="predict-btn-text">Predict Disease</span>
+                </button>
+            </div>
+
+            <!-- Frontend Loading State Indicator (Displayed dynamically during model inference) -->
+            <div class="loading-state" id="loading-state" style="display: none;" role="status" aria-live="polite">
+                <div class="loading-spinner"></div>
+                <div class="loading-text-group">
+                    <p class="loading-title">Analyzing image...</p>
+                    <p class="loading-subtitle">Please wait while the AI model detects the plant disease.</p>
+                </div>
+            </div>
+        </form>
+
+        {% if uploaded_image and prediction_result %}
+        <!-- AI Prediction Result Section -->
+        <div class="prediction-result-box {% if prediction_result.is_confident %}status-confident{% else %}status-uncertain{% endif %}">
+            <div class="result-header">
+                <div class="header-left">
+                    <span class="status-badge {% if prediction_result.is_confident %}badge-success{% else %}badge-warning{% endif %}">
+                        {% if prediction_result.is_confident %}
+                            ✓ Prediction Successful
+                        {% else %}
+                            ⚠ Unable to Confidently Identify
+                        {% endif %}
+                    </span>
+                    <span class="threshold-tag">Threshold: {{ prediction_result.threshold_percent }}%</span>
+                </div>
+                <span class="result-time">{{ uploaded_image.uploaded_at|date:"M d, Y - H:i" }}</span>
+            </div>
+
+            <div class="prediction-content-grid">
+                <!-- Uploaded Leaf Image -->
+                <div class="prediction-image-container">
+                    <img src="{{ uploaded_image.image.url }}" alt="Uploaded leaf diagnosis" class="diagnosis-leaf-image" />
+                    <span class="image-caption">Uploaded Leaf Sample</span>
+                </div>
+
+                <!-- Diagnosis & Confidence Metrics -->
+                <div class="prediction-details">
+                    <div class="diagnosis-card">
+                        <span class="diagnosis-label">Detected Disease</span>
+                        <h3 class="diagnosis-name">
+                            {% if prediction_result.is_confident %}
+                                {{ prediction_result.predicted_class }}
+                            {% else %}
+                                <span class="text-uncertain">Uncertain / Unrecognized Pattern</span>
+                            {% endif %}
+                        </h3>
+
+                        <div class="confidence-meter-group">
+                            <div class="confidence-header">
+                                <span class="confidence-title">Model Confidence:</span>
+                                <span class="confidence-value {% if prediction_result.is_confident %}conf-high{% else %}conf-low{% endif %}">
+                                    {{ prediction_result.confidence_percent }}%
+                                </span>
+                            </div>
+                            <div class="confidence-bar-bg">
+                                <div class="confidence-bar-fill {% if prediction_result.is_confident %}bar-high{% else %}bar-low{% endif %}" style="width: {{ prediction_result.confidence_percent }}%;"></div>
+                            </div>
+                        </div>
+
+                        <p class="diagnosis-status-note">
+                            {{ prediction_result.status_message }}
+                        </p>
+                    </div>
+
+                    <!-- Top Probability Breakdown -->
+                    {% if prediction_result.top_predictions %}
+                    <div class="top-predictions-box">
+                        <h4 class="top-pred-title">Top Predicted Classes:</h4>
+                        <div class="top-pred-list">
+                            {% for pred in prediction_result.top_predictions %}
+                            <div class="top-pred-item">
+                                <div class="pred-item-header">
+                                    <span class="pred-class-name">{{ forloop.counter }}. {{ pred.class_name }}</span>
+                                    <span class="pred-class-conf">{{ pred.confidence_percent }}%</span>
+                                </div>
+                                <div class="mini-bar-bg">
+                                    <div class="mini-bar-fill" style="width: {{ pred.confidence_percent }}%;"></div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Supplementary Disease Information & Management Guidance -->
+            {% if prediction_result.is_confident and disease_info %}
+            <div class="disease-info-section">
+                <div class="info-section-header">
+                    <span class="section-icon">📖</span>
+                    <h4 class="info-section-title">
+                        {% if disease_info.is_healthy %}
+                            Plant Health & Maintenance Profile
+                        {% else %}
+                            About This Disease: {{ disease_info.disease_name }}
+                        {% endif %}
+                    </h4>
+                </div>
+
+                <!-- Short Overview Description -->
+                <p class="disease-overview-text">{{ disease_info.short_description }}</p>
+
+                <div class="disease-info-grid">
+                    <!-- Common Symptoms -->
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <span class="card-icon">🔍</span>
+                            <h5>Common Symptoms</h5>
+                        </div>
+                        <ul class="info-list">
+                            {% for symptom in disease_info.symptoms %}
+                            <li>{{ symptom }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Possible Causes -->
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <span class="card-icon">⚠️</span>
+                            <h5>Possible Causes</h5>
+                        </div>
+                        <ul class="info-list">
+                            {% for cause in disease_info.possible_causes %}
+                            <li>{{ cause }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Prevention Guidance -->
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <span class="card-icon">🛡️</span>
+                            <h5>General Prevention Guidance</h5>
+                        </div>
+                        <ul class="info-list">
+                            {% for prev in disease_info.prevention %}
+                            <li>{{ prev }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Basic Recommendations -->
+                    <div class="info-card info-card-highlight">
+                        <div class="info-card-header">
+                            <span class="card-icon">💡</span>
+                            <h5>Basic Recommendations</h5>
+                        </div>
+                        <ul class="info-list">
+                            {% for rec in disease_info.basic_recommendations %}
+                            <li>{{ rec }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Academic/Educational Safety Disclaimer -->
+                <div class="safety-disclaimer">
+                    <span class="disclaimer-icon">ℹ️</span>
+                    <p class="disclaimer-text">
+                        <strong>Educational &amp; Advisory Notice:</strong> This diagnosis is generated by an automated MobileNetV2 deep learning classifier for academic purposes. Consult a certified agronomist or local agricultural extension service before applying chemical treatments.
+                    </p>
+                </div>
+            </div>
+            {% elif prediction_result.is_confident %}
+            <div class="disease-info-section fallback-info">
+                <p class="fallback-text">ℹ️ Specific disease profile information is currently unavailable for this classification.</p>
+            </div>
+            {% endif %}
+        </div>
+        {% elif uploaded_image %}
+        <!-- Fallback Upload Stored Notice -->
+        <div class="uploaded-result-box">
+            <div class="result-header">
+                <span class="result-badge">Uploaded File</span>
+                <span class="result-time">{{ uploaded_image.uploaded_at|date:"M d, Y - H:i" }}</span>
+            </div>
+            <div class="result-body">
+                <img src="{{ uploaded_image.image.url }}" alt="Uploaded leaf" class="result-image" />
+                <div class="result-info">
+                    <p class="info-title">Image Stored</p>
+                    <p class="info-desc">Stored at: <code>{{ uploaded_image.image.name }}</code></p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Project Overview Features Section -->
+<section class="features-section" id="workflow">
+    <div class="section-heading">
+        <h2>How It Works</h2>
+        <p>Simple 3-step pipeline for rapid agricultural diagnosis &bull; <a href="{% url 'detector:how_it_works' %}" class="auth-link">View Full Workflow Guide &rarr;</a></p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-number">01</div>
+            <h3 class="feature-title">Capture & Upload</h3>
+            <p class="feature-text">Take a clear, well-lit photo of an infected or healthy crop leaf and upload it to the platform.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-number">02</div>
+            <h3 class="feature-title">AI Model Inference</h3>
+            <p class="feature-text">Deep Convolutional Neural Network (CNN) extracts visual disease biomarkers and patterns.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-number">03</div>
+            <h3 class="feature-title">Instant Diagnosis</h3>
+            <p class="feature-text">Receive diagnostic classification with confidence metrics and actionable treatment guidelines.</p>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section" id="about">
+    <div class="about-card">
+        <h2>About This Project</h2>
+        <p>
+            Plant diseases pose a severe threat to global food security and agriculture. Early and accurate detection enables targeted pesticide application, reduced crop damage, and improved harvest yields.
+        </p>
+        <div class="tech-stack-pills">
+            <span class="pill">Python 3.11</span>
+            <span class="pill">Django Framework</span>
+            <span class="pill">SQLite Database</span>
+            <span class="pill">HTML5 &amp; CSS3</span>
+            <span class="pill">Local &amp; Open Source</span>
+        </div>
+        <div style="margin-top: 1.25rem;">
+            <a href="{% url 'detector:about' %}" class="btn btn-outline btn-sm">
+                Learn More About PlantGuard AI &rarr;
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

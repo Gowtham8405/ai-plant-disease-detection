@@ -1,0 +1,55 @@
+================================================================================
+      AI PLANT DISEASE MODEL - TEST SET EVALUATION REPORT
+================================================================================
+
+Model Architecture  : MobileNetV2
+Total Test Images   : 3145
+Test Accuracy       : 95.33%
+Test Loss           : 0.1602
+
+                                 precision    recall  f1-score   support
+
+             Apple - Apple Scab     1.0000    0.9667    0.9831        90
+              Apple - Black Rot     1.0000    1.0000    1.0000        90
+       Apple - Cedar Apple Rust     1.0000    1.0000    1.0000        42
+                Apple - Healthy     0.9670    0.9778    0.9724        90
+            Blueberry - Healthy     0.9889    0.9889    0.9889        90
+               Cherry - Healthy     1.0000    0.9889    0.9944        90
+        Cherry - Powdery Mildew     0.9889    0.9889    0.9889        90
+             Corn - Common Rust     0.9783    1.0000    0.9890        90
+          Corn - Gray Leaf Spot     0.8272    0.8590    0.8428        78
+                 Corn - Healthy     1.0000    0.9889    0.9944        90
+    Corn - Northern Leaf Blight     0.8736    0.8444    0.8588        90
+          Grape - Black Measles     0.9878    0.9000    0.9419        90
+              Grape - Black Rot     0.9082    0.9889    0.9468        90
+                Grape - Healthy     1.0000    1.0000    1.0000        64
+            Grape - Leaf Blight     1.0000    1.0000    1.0000        90
+       Orange - Citrus Greening     0.9677    1.0000    0.9836        90
+         Peach - Bacterial Spot     0.9890    1.0000    0.9945        90
+                Peach - Healthy     1.0000    0.9818    0.9908        55
+   Pepper Bell - Bacterial Spot     0.9888    0.9778    0.9832        90
+          Pepper Bell - Healthy     0.9775    0.9667    0.9721        90
+          Potato - Early Blight     0.9780    0.9889    0.9834        90
+               Potato - Healthy     1.0000    0.8333    0.9091        24
+           Potato - Late Blight     0.9765    0.9222    0.9486        90
+            Raspberry - Healthy     1.0000    1.0000    1.0000        56
+              Soybean - Healthy     0.9674    0.9889    0.9780        90
+        Squash - Powdery Mildew     1.0000    1.0000    1.0000        90
+           Strawberry - Healthy     1.0000    1.0000    1.0000        69
+       Strawberry - Leaf Scorch     0.9780    0.9889    0.9834        90
+        Tomato - Bacterial Spot     0.9341    0.9444    0.9392        90
+          Tomato - Early Blight     0.9355    0.6444    0.7632        90
+               Tomato - Healthy     0.8738    1.0000    0.9326        90
+           Tomato - Late Blight     0.8571    0.9333    0.8936        90
+             Tomato - Leaf Mold     0.9747    0.8556    0.9112        90
+          Tomato - Mosaic Virus     0.9655    0.9825    0.9739        57
+    Tomato - Septoria Leaf Spot     0.8526    0.9000    0.8757        90
+          Tomato - Spider Mites     0.8936    0.9333    0.9130        90
+           Tomato - Target Spot     0.7788    0.9000    0.8351        90
+Tomato - Yellow Leaf Curl Virus     0.9888    0.9778    0.9832        90
+
+                       accuracy                         0.9533      3145
+                      macro avg     0.9578    0.9530    0.9539      3145
+                   weighted avg     0.9552    0.9533    0.9528      3145
+
+================================================================================

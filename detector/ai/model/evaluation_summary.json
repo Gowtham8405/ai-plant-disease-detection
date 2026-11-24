@@ -1,0 +1,38 @@
+{
+    "model": "MobileNetV2",
+    "num_classes": 38,
+    "test_images": 3145,
+    "test_accuracy": 95.33,
+    "test_loss": 0.1602,
+    "macro_precision": 95.78,
+    "macro_recall": 95.3,
+    "macro_f1": 95.39,
+    "weighted_precision": 95.52,
+    "weighted_recall": 95.33,
+    "weighted_f1": 95.28,
+    "model_output_shape": [
+        null,
+        38
+    ],
+    "class_mapping_verified": true,
+    "out_of_distribution_tests": [
+        {
+            "test_type": "Random Gaussian/Uniform Noise",
+            "assigned_class": "Tomato - Healthy",
+            "confidence_percent": 66.65,
+            "observation": "Standard softmax forces output probabilities across known classes even for non-plant inputs."
+        },
+        {
+            "test_type": "Uniform Neutral Gray (128)",
+            "assigned_class": "Tomato - Late Blight",
+            "confidence_percent": 69.06,
+            "observation": "Standard softmax forces output probabilities across known classes even for non-plant inputs."
+        },
+        {
+            "test_type": "Uniform Black (0)",
+            "assigned_class": "Tomato - Late Blight",
+            "confidence_percent": 94.81,
+            "observation": "Standard softmax forces output probabilities across known classes even for non-plant inputs."
+        }
+    ]
+}

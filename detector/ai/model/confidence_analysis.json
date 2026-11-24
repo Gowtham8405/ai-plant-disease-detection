@@ -1,0 +1,140 @@
+{
+    "total_predictions": 3145,
+    "average_max_confidence": 95.3,
+    "median_max_confidence": 99.93,
+    "min_max_confidence": 25.96,
+    "max_max_confidence": 100.0,
+    "distribution": {
+        "below_50_percent": {
+            "count": 46,
+            "percentage": 1.46
+        },
+        "below_60_percent": {
+            "count": 110,
+            "percentage": 3.5
+        },
+        "below_70_percent": {
+            "count": 191,
+            "percentage": 6.07
+        },
+        "below_80_percent": {
+            "count": 283,
+            "percentage": 9.0
+        },
+        "below_90_percent": {
+            "count": 421,
+            "percentage": 13.39
+        }
+    },
+    "lowest_precision_classes": [
+        {
+            "class_name": "Tomato - Target Spot",
+            "precision": 77.88,
+            "recall": 90.0,
+            "f1_score": 83.51,
+            "support": 90
+        },
+        {
+            "class_name": "Corn - Gray Leaf Spot",
+            "precision": 82.72,
+            "recall": 85.9,
+            "f1_score": 84.28,
+            "support": 78
+        },
+        {
+            "class_name": "Tomato - Septoria Leaf Spot",
+            "precision": 85.26,
+            "recall": 90.0,
+            "f1_score": 87.57,
+            "support": 90
+        },
+        {
+            "class_name": "Tomato - Late Blight",
+            "precision": 85.71,
+            "recall": 93.33,
+            "f1_score": 89.36,
+            "support": 90
+        },
+        {
+            "class_name": "Corn - Northern Leaf Blight",
+            "precision": 87.36,
+            "recall": 84.44,
+            "f1_score": 85.88,
+            "support": 90
+        }
+    ],
+    "lowest_recall_classes": [
+        {
+            "class_name": "Tomato - Early Blight",
+            "precision": 93.55,
+            "recall": 64.44,
+            "f1_score": 76.32,
+            "support": 90
+        },
+        {
+            "class_name": "Potato - Healthy",
+            "precision": 100.0,
+            "recall": 83.33,
+            "f1_score": 90.91,
+            "support": 24
+        },
+        {
+            "class_name": "Corn - Northern Leaf Blight",
+            "precision": 87.36,
+            "recall": 84.44,
+            "f1_score": 85.88,
+            "support": 90
+        },
+        {
+            "class_name": "Tomato - Leaf Mold",
+            "precision": 97.47,
+            "recall": 85.56,
+            "f1_score": 91.12,
+            "support": 90
+        },
+        {
+            "class_name": "Corn - Gray Leaf Spot",
+            "precision": 82.72,
+            "recall": 85.9,
+            "f1_score": 84.28,
+            "support": 78
+        }
+    ],
+    "lowest_f1_classes": [
+        {
+            "class_name": "Tomato - Early Blight",
+            "precision": 93.55,
+            "recall": 64.44,
+            "f1_score": 76.32,
+            "support": 90
+        },
+        {
+            "class_name": "Tomato - Target Spot",
+            "precision": 77.88,
+            "recall": 90.0,
+            "f1_score": 83.51,
+            "support": 90
+        },
+        {
+            "class_name": "Corn - Gray Leaf Spot",
+            "precision": 82.72,
+            "recall": 85.9,
+            "f1_score": 84.28,
+            "support": 78
+        },
+        {
+            "class_name": "Corn - Northern Leaf Blight",
+            "precision": 87.36,
+            "recall": 84.44,
+            "f1_score": 85.88,
+            "support": 90
+        },
+        {
+            "class_name": "Tomato - Septoria Leaf Spot",
+            "precision": 85.26,
+            "recall": 90.0,
+            "f1_score": 87.57,
+            "support": 90
+        }
+    ]
+}

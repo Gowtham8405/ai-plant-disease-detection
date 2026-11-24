@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User Dashboard - PlantGuard AI{% endblock %}
+
+{% block content %}
+<section class="dashboard-section">
+    <!-- Dashboard Welcome Header -->
+    <div class="dashboard-header">
+        <div>
+            <span class="hero-tag">📊 Overview</span>
+            <h1 class="dashboard-title">Hello, {{ user.username }}!</h1>
+            <p class="dashboard-subtitle">Here is a summary of your plant health diagnoses and recent prediction activity.</p>
+        </div>
+        <div class="dashboard-header-actions">
+            <a href="{% url 'detector:home' %}" class="btn btn-primary btn-sm">
+                <span class="btn-icon">⚡</span>
+                <span class="btn-text">New Diagnosis</span>
+            </a>
+            <a href="{% url 'detector:history' %}" class="btn btn-outline btn-sm">
+                <span class="btn-icon">📜</span>
+                <span class="btn-text">View Full History</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Analytics Counter Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon-wrapper stat-total">📁</div>
+            <div class="stat-content">
+                <span class="stat-value">{{ total_count }}</span>
+                <span class="stat-label">Total Predictions</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon-wrapper stat-healthy">🌿</div>
+            <div class="stat-content">
+                <span class="stat-value">{{ healthy_count }}</span>
+                <span class="stat-label">Healthy Crops</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon-wrapper stat-disease">⚠️</div>
+            <div class="stat-content">
+                <span class="stat-value">{{ disease_count }}</span>
+                <span class="stat-label">Diseases Detected</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon-wrapper stat-uncertain">❓</div>
+            <div class="stat-content">
+                <span class="stat-value">{{ uncertain_count }}</span>
+                <span class="stat-label">Below 70% Threshold</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Section -->
+    <div class="dashboard-card">
+        <div class="dashboard-card-header">
+            <h2 class="card-title">Recent Diagnoses</h2>
+            {% if total_count > 0 %}
+                <a href="{% url 'detector:history' %}" class="view-all-link">View All &rarr;</a>
+            {% endif %}
+        </div>
+
+        {% if recent_predictions %}
+            <div class="recent-list">
+                {% for record in recent_predictions %}
+                    <div class="history-item-card">
+                        <div class="history-thumb-wrapper">
+                            <img src="{{ record.image.url }}" alt="{{ record.full_class_name }}" class="history-thumbnail" />
+                        </div>
+                        <div class="history-info">
+                            <div class="history-main-details">
+                                <span class="history-plant-tag">{{ record.plant_name }}</span>
+                                <h3 class="history-disease-name">
+                                    {% if record.is_confident %}
+                                        {{ record.disease_name }}
+                                    {% else %}
+                                        <span class="text-uncertain">Uncertain Diagnosis</span>
+                                    {% endif %}
+                                </h3>
+                                <span class="history-date">{{ record.created_at|date:"M d, Y - H:i" }}</span>
+                            </div>
+                            <div class="history-confidence-wrapper">
+                                <span class="confidence-badge {% if record.is_confident %}conf-high-badge{% else %}conf-low-badge{% endif %}">
+                                    {{ record.confidence_percent }}%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="history-actions">
+                            <a href="{% url 'detector:history_detail' record.id %}" class="btn-action btn-view" title="View Diagnosis Details">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">🍃</div>
+                <h3 class="empty-title">No Diagnoses Yet</h3>
+                <p class="empty-text">You haven't uploaded any crop leaf images for AI diagnosis yet.</p>
+                <a href="{% url 'detector:home' %}" class="btn btn-primary btn-sm">
+                    <span class="btn-icon">⚡</span>
+                    <span class="btn-text">Diagnose First Leaf</span>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

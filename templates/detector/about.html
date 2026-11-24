@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About This Project - PlantGuard AI{% endblock %}
+
+{% block content %}
+<section class="info-page-section">
+    <!-- Header -->
+    <div class="info-page-header">
+        <span class="hero-tag">🎓 Academic College Project</span>
+        <h1 class="info-page-title">About PlantGuard AI</h1>
+        <p class="info-page-subtitle">
+            An academic computer vision initiative applying deep learning to automated agricultural crop pathology and foliar disease identification.
+        </p>
+    </div>
+
+    <!-- Main Project Description Card -->
+    <div class="about-card-large">
+        <h2 class="card-section-title">Project Motivation &amp; Scope</h2>
+        <p class="about-paragraph">
+            Plant diseases pose a severe threat to global agriculture and food security. Early detection can help identify potential plant diseases, prevent widespread infection across fields, minimize crop yield losses, and provide relevant prevention information to farmers and agricultural researchers.
+        </p>
+        <p class="about-paragraph">
+            This platform serves as a college-level proof-of-concept demonstrating how modern Convolutional Neural Networks (CNNs) can be integrated with web technologies to deliver rapid, localized, and zero-cost crop health assistance without relying on paid third-party APIs.
+        </p>
+
+        <div class="metrics-highlight-box">
+            <div class="metric-highlight-item">
+                <span class="metric-big-value">95.33%</span>
+                <span class="metric-caption">Accuracy on the project's test dataset</span>
+            </div>
+            <div class="metric-highlight-item">
+                <span class="metric-big-value">38</span>
+                <span class="metric-caption">Crop &amp; Disease Classes Supported</span>
+            </div>
+            <div class="metric-highlight-item">
+                <span class="metric-big-value">70.0%</span>
+                <span class="metric-caption">Reliability Confidence Threshold</span>
+            </div>
+        </div>
+
+        <div class="disclaimer-note">
+            ℹ️ <strong>Academic Note:</strong> The 95.33% evaluation accuracy reflects performance measured on the project's curated unseen test dataset (3,145 samples). It is intended for educational demonstrations and should not be considered a guaranteed field diagnosis for all real-world environmental variations.
+        </div>
+    </div>
+
+    <!-- Technology Stack Section -->
+    <div class="tech-stack-section">
+        <h2 class="card-section-title">Technology Stack</h2>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <div class="tech-icon">🐍</div>
+                <h3 class="tech-title">Python 3.11</h3>
+                <p class="tech-desc">Core programming language for backend services and machine learning.</p>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">🌐</div>
+                <h3 class="tech-title">Django Framework</h3>
+                <p class="tech-desc">Secure, scalable web framework providing ORM, authentication, and URL routing.</p>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">🧠</div>
+                <h3 class="tech-title">TensorFlow / Keras</h3>
+                <p class="tech-desc">Deep learning framework executing MobileNetV2 neural network inference.</p>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">⚡</div>
+                <h3 class="tech-title">MobileNetV2</h3>
+                <p class="tech-desc">Lightweight Transfer Learning base pretrained on ImageNet for efficient CPU execution.</p>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">💾</div>
+                <h3 class="tech-title">SQLite Database</h3>
+                <p class="tech-desc">Local, zero-configuration database storing uploads and user prediction history.</p>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">🎨</div>
+                <h3 class="tech-title">HTML5 &amp; Vanilla CSS3</h3>
+                <p class="tech-desc">Clean, responsive frontend design without heavy third-party framework overhead.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

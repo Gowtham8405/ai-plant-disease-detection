@@ -1,0 +1,146 @@
+{
+    "correct_samples": [
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00007.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Apple - Apple Scab",
+            "confidence_percent": 86.36,
+            "is_correct": true
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00026.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Apple - Apple Scab",
+            "confidence_percent": 99.79,
+            "is_correct": true
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00028.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Apple - Apple Scab",
+            "confidence_percent": 99.92,
+            "is_correct": true
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00031.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Apple - Apple Scab",
+            "confidence_percent": 99.16,
+            "is_correct": true
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00033.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Apple - Apple Scab",
+            "confidence_percent": 99.97,
+            "is_correct": true
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00045.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Apple - Apple Scab",
+            "confidence_percent": 99.81,
+            "is_correct": true
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00047.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Apple - Apple Scab",
+            "confidence_percent": 99.83,
+            "is_correct": true
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00058.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Apple - Apple Scab",
+            "confidence_percent": 99.98,
+            "is_correct": true
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00068.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Apple - Apple Scab",
+            "confidence_percent": 98.34,
+            "is_correct": true
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00072.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Apple - Apple Scab",
+            "confidence_percent": 100.0,
+            "is_correct": true
+        }
+    ],
+    "incorrect_samples": [
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00160.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Apple - Healthy",
+            "confidence_percent": 88.27,
+            "is_correct": false
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00297.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Peach - Bacterial Spot",
+            "confidence_percent": 83.13,
+            "is_correct": false
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Apple_Scab/Apple___Apple_Scab_mendeley_00388.jpg",
+            "actual_class": "Apple - Apple Scab",
+            "predicted_class": "Cherry - Powdery Mildew",
+            "confidence_percent": 81.66,
+            "is_correct": false
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Healthy/Apple___Healthy_mendeley_00107.jpg",
+            "actual_class": "Apple - Healthy",
+            "predicted_class": "Tomato - Healthy",
+            "confidence_percent": 79.55,
+            "is_correct": false
+        },
+        {
+            "image_path": "datasets/processed/test/Apple___Healthy/Apple___Healthy_mendeley_00576.jpg",
+            "actual_class": "Apple - Healthy",
+            "predicted_class": "Tomato - Healthy",
+            "confidence_percent": 67.1,
+            "is_correct": false
+        },
+        {
+            "image_path": "datasets/processed/test/Blueberry___Healthy/Blueberry___Healthy_mendeley_00089.jpg",
+            "actual_class": "Blueberry - Healthy",
+            "predicted_class": "Tomato - Healthy",
+            "confidence_percent": 60.87,
+            "is_correct": false
+        },
+        {
+            "image_path": "datasets/processed/test/Cherry___Healthy/Cherry___Healthy_mendeley_00562.jpg",
+            "actual_class": "Cherry - Healthy",
+            "predicted_class": "Strawberry - Leaf Scorch",
+            "confidence_percent": 77.49,
+            "is_correct": false
+        },
+        {
+            "image_path": "datasets/processed/test/Cherry___Powdery_Mildew/Cherry___Powdery_Mildew_mendeley_00524.jpg",
+            "actual_class": "Cherry - Powdery Mildew",
+            "predicted_class": "Pepper Bell - Bacterial Spot",
+            "confidence_percent": 91.39,
+            "is_correct": false
+        },
+        {
+            "image_path": "datasets/processed/test/Corn___Gray_Leaf_Spot/Corn___Gray_Leaf_Spot_mendeley_00094.jpg",
+            "actual_class": "Corn - Gray Leaf Spot",
+            "predicted_class": "Corn - Northern Leaf Blight",
+            "confidence_percent": 62.6,
+            "is_correct": false
+        },
+        {
+            "image_path": "datasets/processed/test/Corn___Gray_Leaf_Spot/Corn___Gray_Leaf_Spot_mendeley_00151.jpg",
+            "actual_class": "Corn - Gray Leaf Spot",
+            "predicted_class": "Corn - Northern Leaf Blight",
+            "confidence_percent": 85.83,
+            "is_correct": false
+        }
+    ]
+}

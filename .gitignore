@@ -1,0 +1,64 @@
+# Environment configuration
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg
+*.egg-info/
+build/
+dist/
+.Python
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Django and local databases
+db.sqlite3
+*.sqlite
+*.sqlite3
+*.db
+*-wal
+*-shm
+
+# Local data and uploaded media
+/dataset/
+/datasets/*
+!/datasets/metadata/
+/datasets/metadata/*
+!/datasets/metadata/README.md
+!/datasets/metadata/class_names.json
+/media/
+
+# IDE and operating system files
+.vscode/
+.idea/
+.vs/
+*.code-workspace
+*.sublime-*
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs, temporary files, and test/coverage caches
+*.log
+*.tmp
+*.temp
+temp/
+tmp/
+/temp_invalid.txt
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local project reports contain identifying document metadata
+/AI_Plant_Disease_Detection_Project_Documentation.docx
+/AI_Plant_Disease_Detection_Project_Documentation.pdf

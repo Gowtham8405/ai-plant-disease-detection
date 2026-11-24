@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User Profile - {{ user.username }} - PlantGuard AI{% endblock %}
+
+{% block content %}
+<section class="profile-page-section">
+    <!-- Header -->
+    <div class="profile-header">
+        <span class="hero-tag">👤 User Account</span>
+        <h1 class="profile-title">User Profile</h1>
+        <p class="profile-subtitle">View your account details, membership status, and diagnostic activity summary.</p>
+    </div>
+
+    <div class="profile-grid">
+        <!-- Account Info Card -->
+        <div class="profile-card">
+            <div class="profile-avatar-wrapper">
+                <div class="profile-avatar">
+                    {{ user.username|make_list|first|upper }}
+                </div>
+                <div class="profile-avatar-info">
+                    <h2 class="profile-username">{{ user.username }}</h2>
+                    <span class="profile-role">Registered User</span>
+                </div>
+            </div>
+
+            <div class="profile-details-list">
+                <div class="profile-detail-item">
+                    <span class="detail-label">Username</span>
+                    <span class="detail-value">{{ user.username }}</span>
+                </div>
+                <div class="profile-detail-item">
+                    <span class="detail-label">Email Address</span>
+                    <span class="detail-value">
+                        {% if user.email %}
+                            {{ user.email }}
+                        {% else %}
+                            <span class="text-muted">Not provided</span>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="profile-detail-item">
+                    <span class="detail-label">Member Since</span>
+                    <span class="detail-value">{{ user.date_joined|date:"F d, Y" }}</span>
+                </div>
+                <div class="profile-detail-item">
+                    <span class="detail-label">Last Login</span>
+                    <span class="detail-value">
+                        {% if user.last_login %}
+                            {{ user.last_login|date:"M d, Y - H:i" }}
+                        {% else %}
+                            Just now
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <a href="{% url 'detector:logout' %}" class="btn btn-danger-outline btn-sm" style="width: 100%; text-align: center;">
+                    <span class="btn-icon">🚪</span>
+                    <span class="btn-text">Sign Out</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Activity Overview Card -->
+        <div class="profile-stats-card">
+            <h3 class="card-section-title">Diagnostic Activity</h3>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper stat-total">📁</div>
+                    <div class="stat-content">
+                        <span class="stat-value">{{ total_count }}</span>
+                        <span class="stat-label">Total Predictions</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper stat-healthy">🌿</div>
+                    <div class="stat-content">
+                        <span class="stat-value">{{ healthy_count }}</span>
+                        <span class="stat-label">Healthy Crops</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper stat-disease">⚠️</div>
+                    <div class="stat-content">
+                        <span class="stat-value">{{ disease_count }}</span>
+                        <span class="stat-label">Diseases Detected</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-nav-box">
+                <h4 class="quick-nav-title">Quick Actions</h4>
+                <div class="quick-nav-buttons">
+                    <a href="{% url 'detector:home' %}" class="btn btn-primary btn-sm">
+                        <span class="btn-icon">⚡</span>
+                        <span class="btn-text">New Diagnosis</span>
+                    </a>
+                    <a href="{% url 'detector:history' %}" class="btn btn-outline btn-sm">
+                        <span class="btn-icon">📜</span>
+                        <span class="btn-text">View Prediction History</span>
+                    </a>
+                    <a href="{% url 'detector:dashboard' %}" class="btn btn-outline btn-sm">
+                        <span class="btn-icon">📊</span>
+                        <span class="btn-text">Dashboard</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

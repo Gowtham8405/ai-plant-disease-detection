@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create an Account - PlantGuard AI{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+        <div class="auth-header">
+            <span class="auth-tag">🌱 Join PlantGuard AI</span>
+            <h1 class="auth-title">Create an Account</h1>
+            <p class="auth-subtitle">Register to save your plant disease diagnoses and track crop health history over time.</p>
+        </div>
+
+        <form action="{% url 'detector:register' %}" method="POST" class="auth-form" novalidate>
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                {{ form.username }}
+                {% if form.username.help_text %}
+                    <small class="form-help">{{ form.username.help_text }}</small>
+                {% endif %}
+                {% if form.username.errors %}
+                    <div class="form-error">{{ form.username.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}" class="form-label">Email Address (Optional)</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="form-error">{{ form.email.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+                {{ form.password }}
+                {% if form.password.help_text %}
+                    <small class="form-help">{{ form.password.help_text }}</small>
+                {% endif %}
+                {% if form.password.errors %}
+                    <div class="form-error">{{ form.password.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password_confirm.id_for_label }}" class="form-label">Confirm Password</label>
+                {{ form.password_confirm }}
+                {% if form.password_confirm.errors %}
+                    <div class="form-error">{{ form.password_confirm.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="auth-actions">
+                <button type="submit" class="btn btn-primary">
+                    <span class="btn-icon">✨</span>
+                    <span class="btn-text">Create Account</span>
+                </button>
+            </div>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{% url 'detector:login' %}" class="auth-link">Sign In</a></p>
+        </div>
+    </div>
+</section>
+{% endblock %}
